@@ -1,20 +1,17 @@
 package Nyansa;
 
-
 import java.util.*;
-
 import static Nyansa.Helper.getSubString;
 
 /**
- * Hello world!
- *
+ * @author Aman Mahato
  */
 public class App {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         List<String> fileContent = Helper.getFileContent("input.txt");
         Map<String, Map<String, Integer>> map = new TreeMap<>();
-        Map<String, Integer> extractedValue = new HashMap<>();
+        Map<String, Integer> extractedValue ;
         for (String individualLine : fileContent) {
             String[] parsedEachLine = getSubString(individualLine);
             String epochDate = parsedEachLine[0];
@@ -25,7 +22,6 @@ public class App {
                 tempMap.put(url, 1);
                 map.put(humanReadableDate, tempMap);
             } else {
-                //Map<String, Integer> extractedValue = map.get(humanReadableDate);
                 extractedValue = map.get(humanReadableDate);
                 if(!extractedValue.containsKey(url)){
                     extractedValue.put(url,1);
@@ -34,11 +30,21 @@ public class App {
                 }
             }
         }
-        extractedValue = Helper.sortByValue(extractedValue);
-        //TODO--Printing map
+        //Sorting map by value and Printing the sorted map
         for (Map.Entry<String, Map<String, Integer>> entry : map.entrySet()) {
-            System.out.println(entry.getKey().toString());
-            Helper.printMap(entry.getValue());
+            System.out.println(entry.getKey().toString() + " GMT");
+            Set<Map.Entry<String, Integer>> set = entry.getValue().entrySet();
+            List<Map.Entry<String, Integer>> list = new ArrayList<>(set);
+            Collections.sort( list, new Comparator<Map.Entry<String, Integer>>()
+            {
+                public int compare( Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2 )
+                {
+                    return (o2.getValue()).compareTo( o1.getValue());
+                }
+            });
+            for(Map.Entry<String, Integer> entry1:list){
+                System.out.println(entry1.getKey()+" "+entry1.getValue().toString());
+            }
         }
     }
 

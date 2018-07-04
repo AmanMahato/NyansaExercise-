@@ -30,24 +30,19 @@ public class Helper {
      * @return
      * @throws FileNotFoundException
      */
-    public static List<String> getFileContent(String fileName) throws FileNotFoundException {
+    public static List<String> getFileContent(String fileName) {
         List<String> returnList = new LinkedList<>();
-        File file = new File("/Users/amanmahato/Desktop/NyansaExercise-/Nyansa/src/main/resources/".concat(fileName));
-        Scanner sc = new Scanner(file);
+        Scanner sc = null;
+        try{
+            File file = new File("src/main/resources/".concat(fileName));
+            sc = new Scanner(file);
+        } catch (FileNotFoundException ex) {
+            System.out.println("File Not Found Exception, Please make sure the file exists in the Resources folder "+ ex.getMessage());
+        }
         while (sc.hasNextLine()){
             returnList.add(sc.nextLine());
           }
         return returnList;
-    }
-
-    /**
-     * This method is used to print the map content
-     * @param map
-     */
-    public static void printMap(Map<String,Integer> map){
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue().toString());
-        }
     }
 
     /**
@@ -68,34 +63,6 @@ public class Helper {
             }
         }
         return new String[]{date,url.replace('|',' ').trim()};
-    }
-
-    /**
-     * This method is used to sort the map based on values
-     * @param unsortMap
-     * @return
-     */
-    public static Map<String, Integer> sortByValue(Map<String, Integer> unsortMap) {
-
-        // 1. Convert Map to List of Map
-        List<Map.Entry<String, Integer>> list =
-                new LinkedList<Map.Entry<String, Integer>>(unsortMap.entrySet());
-
-        // 2. Sort list with Collections.sort(), provide a custom Comparator
-        //    Try switch the o1 o2 position for a different order
-        Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
-            public int compare(Map.Entry<String, Integer> o1,
-                               Map.Entry<String, Integer> o2) {
-                return (o2.getValue()).compareTo(o1.getValue());
-            }
-        });
-
-        // 3. Loop the sorted list and put it into a new insertion order Map LinkedHashMap
-        Map<String, Integer> sortedMap = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Integer> entry : list) {
-            sortedMap.put(entry.getKey(), entry.getValue());
-        }
-        return sortedMap;
     }
 
 }
