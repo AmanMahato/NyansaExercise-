@@ -20,7 +20,10 @@ while(true) {
 
 Problem with this Seudo Code:
 
-The problem with this seudo code is its going in Race Codition. Lets assume there are two consumers, viz, consumer 1 and consumer 2 and consumer 1 acquires the lock and enters the edge case and condition.wait(mutex) is executed and releases the lock. Then Producer acquires the lock and then producer pushes item 1 in queue and producer releases the lock. Then consumer 2 acquires the lock and then consumer 2 removes item 2 from the queue and then releases the lock and then again producer sends the signal to consumer 1 and consumer 1 tries to remove the item from the queue but at this point the queue is empty. Hence it leads to "Race Condition".
+The problem with this seudo code is its going in Race Codition. Lets assume there are two consumers, viz, consumer 1 and consumer 2 and consumer 1 acquires the lock and enters the edge case 
+and condition.wait(mutex) is executed and releases the lock. Then Producer acquires the lock and then producer pushes item 1 in queue and producer releases the lock. Then consumer 2 acquires 
+the lock and then consumer 2 removes item 2 from the queue and then releases the lock and then again producer sends the signal to consumer 1 and consumer 1 tries to remove the item from the 
+queue but at this point the queue is empty. Hence it leads to "Race Condition".
 
 Fix:
 
