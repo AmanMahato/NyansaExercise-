@@ -9,7 +9,7 @@ import static Nyansa.Helper.getSubString;
 public class App {
 
     public static void main(String[] args) {
-        List<String> fileContent = Helper.getFileContent("input.txt");
+        List<String> fileContent = Helper.getFileContent(args[0]);
         Map<String, Map<String, Integer>> map = new TreeMap<>();
         Map<String, Integer> extractedValue ;
         for (String individualLine : fileContent) {
