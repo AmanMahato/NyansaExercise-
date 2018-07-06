@@ -1,7 +1,9 @@
 package Nyansa;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -11,7 +13,7 @@ import java.util.*;
 public class Helper {
 
     /**
-     * This method is used to convert the
+     * This method is used to convert the epch date to human readable form
      * @param input
      * @return
      */
@@ -63,6 +65,44 @@ public class Helper {
             }
         }
         return new String[]{date,url.replace('|',' ').trim()};
+    }
+
+    /**
+     * This function is used to read the file line by line from the specified path
+     * @param path
+     * @return
+     */
+    public static List<String> fileReaderPerLine(String path){
+        FileInputStream inputStream = null;
+        List<String> result = new LinkedList<>();
+        Scanner sc = null;
+        String line = "";
+        try {
+            inputStream = new FileInputStream(path);
+            sc = new Scanner(inputStream, "UTF-8");
+            while (sc.hasNextLine()) {
+                line = sc.nextLine();
+                result.add(line);
+            }
+            if (sc.ioException() != null) {
+                throw sc.ioException();
+            }
+        } catch (java.io.IOException fnfe) {
+            System.out.println(fnfe.getStackTrace());
+        }
+        finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (sc != null) {
+                sc.close();
+            }
+        }
+        return result;
     }
 
 }

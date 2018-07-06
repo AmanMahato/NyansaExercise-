@@ -9,9 +9,10 @@ import static Nyansa.Helper.getSubString;
 public class App {
 
     public static void main(String[] args) {
-        List<String> fileContent = Helper.getFileContent(args[0]);
+        List<String> fileContent = Helper.fileReaderPerLine("src/main/resources/".concat(args[0]));
         Map<String, Map<String, Integer>> map = new TreeMap<>();
         Map<String, Integer> extractedValue ;
+        Helper.fileReaderPerLine("src/main/resources/input.txt");
         for (String individualLine : fileContent) {
             String[] parsedEachLine = getSubString(individualLine);
             String epochDate = parsedEachLine[0];
