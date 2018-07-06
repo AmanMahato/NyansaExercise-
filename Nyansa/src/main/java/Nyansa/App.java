@@ -14,7 +14,8 @@ public class App {
         Map<String, Integer> extractedValue ;
         Helper.fileReaderPerLine("src/main/resources/input.txt");
         for (String individualLine : fileContent) {
-            String[] parsedEachLine = getSubString(individualLine);
+            //String[] parsedEachLine = getSubString(individualLine); //For optimization, get substring function is not used.
+            String[] parsedEachLine = individualLine.split("\\|"); //Regular Expression has been used.
             String epochDate = parsedEachLine[0];
             String url = parsedEachLine[1];
             String humanReadableDate = Helper.getHumanReadableDate(epochDate);

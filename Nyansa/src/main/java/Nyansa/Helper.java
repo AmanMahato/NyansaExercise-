@@ -1,9 +1,6 @@
 package Nyansa;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -26,26 +23,6 @@ public class Helper {
         return formattedDate;
     }
 
-    /**
-     * This method is used to read the file and extract each line and put in a list
-     * @param fileName
-     * @return
-     * @throws FileNotFoundException
-     */
-    public static List<String> getFileContent(String fileName) {
-        List<String> returnList = new LinkedList<>();
-        Scanner sc = null;
-        try{
-            File file = new File("src/main/resources/".concat(fileName));
-            sc = new Scanner(file);
-        } catch (FileNotFoundException ex) {
-            System.out.println("File Not Found Exception, Please make sure the file exists in the Resources folder "+ ex.getMessage());
-        }
-        while (sc.hasNextLine()){
-            returnList.add(sc.nextLine());
-          }
-        return returnList;
-    }
 
     /**
      * This method is used to split the given string based on the | dilameter
@@ -75,17 +52,18 @@ public class Helper {
     public static List<String> fileReaderPerLine(String path){
         FileInputStream inputStream = null;
         List<String> result = new LinkedList<>();
-        Scanner sc = null;
-        String line = "";
         try {
             inputStream = new FileInputStream(path);
-            sc = new Scanner(inputStream, "UTF-8");
-            while (sc.hasNextLine()) {
-                line = sc.nextLine();
-                result.add(line);
-            }
-            if (sc.ioException() != null) {
-                throw sc.ioException();
+            DataInputStream data_input = new DataInputStream(inputStream);
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(data_input));
+            String line;
+            while ((line = buffer.readLine()) != null)
+            {
+                line = line.trim();
+                if ((line.length()!=0))
+                {
+                    result.add(line);
+                }
             }
         } catch (java.io.IOException fnfe) {
             System.out.println(fnfe.getStackTrace());
@@ -97,9 +75,6 @@ public class Helper {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            if (sc != null) {
-                sc.close();
             }
         }
         return result;
