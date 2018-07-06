@@ -1,0 +1,50 @@
+public static void main(String[] args) {
+        List<String> fileContent = Helper.fileReaderPerLine("src/main/resources/".concat(args[0])); //O(n) as Helper.fileReaderPerLine will have O(n) time complexity where n is    //number of rown in a input file.
+        Map<String, Map<String, Integer>> map = new TreeMap<>(); //O(1)
+        Map<String, Integer> extractedValue ; //O(1)
+
+
+        for (String individualLine : fileContent) {
+            //String[] parsedEachLine = getSubString(individualLine); //For optimization, get substring function is not used.
+            String[] parsedEachLine = individualLine.split("\\|"); //Regular Expression has been used.
+            String epochDate = parsedEachLine[0];
+            String url = parsedEachLine[1];
+            String humanReadableDate = Helper.getHumanReadableDate(epochDate);
+            if (!map.containsKey(humanReadableDate)) {
+                Map<String, Integer> tempMap = new HashMap<>();
+                tempMap.put(url, 1);
+                map.put(humanReadableDate, tempMap);
+            } else {
+                extractedValue = map.get(humanReadableDate);
+                if(!extractedValue.containsKey(url)){
+                    extractedValue.put(url,1);
+                }else{
+                    extractedValue.put(url,extractedValue.get(url)+1);
+                }
+            }
+        } //O(n) for the for loop from line 5 through 23
+
+
+
+        //Sorting map by value and Printing the sorted map
+        for (Map.Entry<String, Map<String, Integer>> entry : map.entrySet()) {
+            System.out.println(entry.getKey().toString() + " GMT");
+            Set<Map.Entry<String, Integer>> set = entry.getValue().entrySet(); //O(1)
+            List<Map.Entry<String, Integer>> list = new ArrayList<>(set); //O(1)
+            Collections.sort( list, new Comparator<Map.Entry<String, Integer>>()
+            {
+                public int compare( Map.Entry<String, Integer> o1, Map.Entry<String, Integer> o2 )
+                {
+                    return (o2.getValue()).compareTo( o1.getValue());
+                }
+            });
+            for(Map.Entry<String, Integer> entry1:list){
+                System.out.println(entry1.getKey()+" "+entry1.getValue().toString());
+            } //O(n)
+        } //O(n)
+    }
+
+    Therefore summing all the run time in terms of n, where n is the number of rows in the input file, we get the total run time as
+    O(n)+O(n)*O(n) --->O(n)+O(n^2)---->O(n^2) ; Ignoring all the constant time operation
+
+
