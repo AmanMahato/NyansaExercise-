@@ -12,7 +12,6 @@ public class App {
         List<String> fileContent = Helper.fileReaderPerLine("src/main/resources/".concat(args[0]));
         Map<String, Map<String, Integer>> map = new TreeMap<>();
         Map<String, Integer> extractedValue ;
-        Helper.fileReaderPerLine("src/main/resources/input.txt");
         for (String individualLine : fileContent) {
             //String[] parsedEachLine = getSubString(individualLine); //For optimization, get substring function is not used.
             String[] parsedEachLine = individualLine.split("\\|"); //Regular Expression has been used.
